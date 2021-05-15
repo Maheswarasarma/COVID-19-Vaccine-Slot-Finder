@@ -57,34 +57,47 @@ optional arguments:
   -v,       --verbose         print out the progress
   -version  --version         print the version of the script
   -h,       -help, --help     Show this help message and exit
+```
 
+## Sample output from terminal
 
-# Sample Output:
-
+```
 > python covid-vaccine-finder.py --age 45 --pincode 560037 --days 1
 
 +------------+-----------------------+------------+----------+-------+------------------------------------------------------------------+-----------------+
 |    Date    |         Center        |  Vaccine   | Capacity | Price |                             Address                              |      Slots      |
 +------------+-----------------------+------------+----------+-------+------------------------------------------------------------------+-----------------+
-| 15-05-2021 | Doddanekkundi UPHC P3 | COVISHIELD |    10    |  Free |       NEAR RAM TEMPLE VIBHUTIPURA EXTENSION DODDANEKKUNDI        | 10:00AM-11:00AM |
+| 10-05-2021 | Doddanekkundi UPHC P3 | COVISHIELD |    10    |  Free |       NEAR RAM TEMPLE VIBHUTIPURA EXTENSION DODDANEKKUNDI        | 10:00AM-11:00AM |
 |            |                       |            |          |       |                                                                  | 11:00AM-12:00PM |
 |            |                       |            |          |       |                                                                  | 12:00PM-01:00PM |
 |            |                       |            |          |       |                                                                  | 01:00PM-04:00PM |
 |            |                       |            |          |       |                                                                  |                 |
-| 15-05-2021 |  Marathahalli UPHC P3 | COVISHIELD |    12    |  Free | PHC MARATHALLI ANANAD NAGAR 2ND CROSS MARATHALLI BANGLORE 560037 | 10:00AM-11:00AM |
+| 10-05-2021 |  Marathahalli UPHC P3 | COVISHIELD |    12    |  Free | PHC MARATHALLI ANANAD NAGAR 2ND CROSS MARATHALLI BANGLORE 560037 | 10:00AM-11:00AM |
 |            |                       |            |          |       |                                                                  | 11:00AM-12:00PM |
 |            |                       |            |          |       |                                                                  | 12:00PM-01:00PM |
 |            |                       |            |          |       |                                                                  | 01:00PM-04:00PM |
 |            |                       |            |          |       |                                                                  |                 |
-| 15-05-2021 |  Vibuthipura UPHC P3  | COVISHIELD |    25    |  Free |  Annasandrapalya Main Rd, Ramesh Nagar, Vibhutipura, Bengaluru,  | 10:00AM-11:00AM |
+| 10-05-2021 |  Vibuthipura UPHC P3  | COVISHIELD |    25    |  Free |  Annasandrapalya Main Rd, Ramesh Nagar, Vibhutipura, Bengaluru,  | 10:00AM-11:00AM |
 |            |                       |            |          |       |                                                                  | 11:00AM-12:00PM |
 |            |                       |            |          |       |                                                                  | 12:00PM-01:00PM |
 |            |                       |            |          |       |                                                                  | 01:00PM-04:00PM |
 |            |                       |            |          |       |                                                                  |                 |
-| 15-05-2021 |    YAMLURU UPHC P3    | COVISHIELD |    6     |  Free |             Kempapura MAIN ROAD,Bellandur, Bengaluru             | 10:00AM-11:00AM |
+| 10-05-2021 |    YAMLURU UPHC P3    | COVISHIELD |    6     |  Free |             Kempapura MAIN ROAD,Bellandur, Bengaluru             | 10:00AM-11:00AM |
 |            |                       |            |          |       |                                                                  | 11:00AM-12:00PM |
 |            |                       |            |          |       |                                                                  | 12:00PM-01:00PM |
 |            |                       |            |          |       |                                                                  | 01:00PM-04:00PM |
 |            |                       |            |          |       |                                                                  |                 |
 +------------+-----------------------+------------+----------+-------+------------------------------------------------------------------+-----------------+
+```
+
+
+## Sample Email output
+
+![image](https://user-images.githubusercontent.com/25954119/118352449-1ef85f80-b57f-11eb-9926-4fcd5ac34004.png)
+
+
+## Sample Telegram chat
+
+![image](https://user-images.githubusercontent.com/25954119/118352467-3e8f8800-b57f-11eb-9e47-fbc21b1c1858.png)
+
  
