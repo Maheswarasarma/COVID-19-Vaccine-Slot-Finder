@@ -45,7 +45,7 @@ class Operations:
 
     # Method to generate table
     def table_dump(self, center, session, p_table):
-        global  flag
+        global flag
         a_slots = ''
         if 'slots' in session:
             for slot in session["slots"]:
@@ -53,12 +53,12 @@ class Operations:
         if a_slots != '':
             flag = 0
             p_table.add_row([session["date"],
-                                              center["name"],
-                                              session["vaccine"],
-                                              session["available_capacity"],
-                                              center["fee_type"],
-                                              center["address"],
-                                              a_slots])
+                             center["name"],
+                             session["vaccine"],
+                             session["available_capacity"],
+                             center["fee_type"],
+                             center["address"],
+                             a_slots])
 
     # Method to generate text msg
     def telegram_dump(self, inp_date, center, session):
@@ -81,17 +81,17 @@ class Operations:
         self._telegram_token = token.strip()
         self._telegram_chat_id = t_id.strip()
         alert_text = t_data
-        if bool(self._telegram_token and self._telegram_chat_id): 
+        if bool(self._telegram_token and self._telegram_chat_id):
             print("sending telegram ..")
-            URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self._telegram_token,
-                                                                                                                                                                                       self._telegram_chat_id, 
-                                                                                                                                                                                       alert_text)
+            URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(
+                self._telegram_token, self._telegram_chat_id, alert_text)
             ro = RestOperations(self.args)
-            response = ro.post_operation(URL,
-                                                                        headers={
-                                                                                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
+            response = ro.post_operation(
+                URL,
+                headers={
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
                                            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
-                                                                        expected_return_code=200)
+                expected_return_code=200)
 
     # Method to send whatsapp msg
     def do_whatsapp(self, d_data, token, w_id):
@@ -102,8 +102,8 @@ class Operations:
         self._to_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
 
         client.messages.create(body=d_data,
-                                                         from_=self._from_whatsapp_number,
-                                                         to=self._to_whatsapp_number)
+                               from_=self._from_whatsapp_number,
+                               to=self._to_whatsapp_number)
 
     # Method to get and process the data
     def process_data(self, p_date_str):
@@ -112,15 +112,18 @@ class Operations:
             URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={0}&date={1}" \
                 .format(self.args.pincode, inp_date)
             ro = RestOperations(self.args)
-            response = ro.get_operation(URL,
-                                                                      headers={
-                                                                                         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
+            response = ro.get_operation(
+                URL,
+                headers={
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
                                           AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
-                                                                      expected_return_code=200)
+                expected_return_code=200)
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if int(session["available_capacity"]) >0 and int(session["min_age_limit"]) <= int(
+                        if int(
+                                session["available_capacity"]) > 0 and int(
+                                session["min_age_limit"]) <= int(
                                 self.args.age):
                             self.table_dump(center, session, p_table)
                             with Capturing() as output:
@@ -131,23 +134,25 @@ class Operations:
     def send_mail(self, body):
         if self.args.email:
             print("sending email ..")
-            outlook=win32.Dispatch('outlook.application')
-            mail=outlook.CreateItem(0)
+            outlook = win32.Dispatch('outlook.application')
+            mail = outlook.CreateItem(0)
             recipients = [self.args.email]
-            mail.To=", ".join(recipients)
-            mail.Subject='Vaccine Availabilty as on %s' % str(date.today()).replace('-', '/')
-            mail.HTMLbody="""<html>%s</html>""" % (body.get_html_string(format=True))
+            mail.To = ", ".join(recipients)
+            mail.Subject = 'Vaccine Availabilty as on %s' % str(
+                date.today()).replace('-', '/')
+            mail.HTMLbody = """<html>%s</html>""" % (
+                body.get_html_string(format=True))
             mail.Send()
+
 
 class RestOperations(Operations):
 
     def get_operation(self,
-                                          url,
-                                          headers,
-                                          params=None,
-                                          verify=False,
-                                          expected_return_code=None):
-
+                      url,
+                      headers,
+                      params=None,
+                      verify=False,
+                      expected_return_code=None):
         """
         Method to perform GET Rest API operation
 
@@ -161,20 +166,24 @@ class RestOperations(Operations):
 
     """
         if args.verbose:
-            print('Requested url : %s, headers = %s, params = %s, expected return code = %s' % (
-                url, headers, params, expected_return_code))
+            print(
+                'Requested url : %s, headers = %s, params = %s, expected return code = %s' %
+                (url, headers, params, expected_return_code))
         try:
             resp = requests.get(url=url,
-                                                     headers=headers,
-                                                     params=params,
-                                                     verify=verify)
+                                headers=headers,
+                                params=params,
+                                verify=verify)
 
             if isinstance(expected_return_code, int):
                 expected_return_code = [expected_return_code]
             expected_return_codes = default_return_codes if expected_return_code is None else expected_return_code
 
             if resp.status_code in expected_return_codes:
-                if args.verbose: print("Check response status code --> \"%s\"" % resp.status_code)
+                if args.verbose:
+                    print(
+                        "Check response status code --> \"%s\"" %
+                        resp.status_code)
                 return resp.json()
             else:
                 print("Errored Response content is %s" % resp.content)
@@ -191,12 +200,11 @@ class RestOperations(Operations):
             raise
 
     def post_operation(self,
-                                            url,
-                                            headers,
-                                            params=None,
-                                            verify=False,
-                                            expected_return_code=None):
-
+                       url,
+                       headers,
+                       params=None,
+                       verify=False,
+                       expected_return_code=None):
         """
         Method to perform POST Rest API operation
 
@@ -212,19 +220,23 @@ class RestOperations(Operations):
   """
         global expected_return_codes
         if args.verbose:
-            print('Requested url : %s, headers = %s, params = %s, expected return code = %s' % (
-                url, headers, params, expected_return_code))
+            print(
+                'Requested url : %s, headers = %s, params = %s, expected return code = %s' %
+                (url, headers, params, expected_return_code))
         if isinstance(expected_return_code, int):
             expected_return_code = [expected_return_code]
             expected_return_codes = self.default_return_codes if expected_return_code is None else expected_return_code
         try:
             resp = requests.post(url=url,
-                                                       headers=headers,
-                                                       params=params,
-                                                       verify=verify)
+                                 headers=headers,
+                                 params=params,
+                                 verify=verify)
 
             if resp.status_code in expected_return_codes:
-                if args.verbose: print("Check response status code --> \"%s\"" % resp.status_code)
+                if args.verbose:
+                    print(
+                        "Check response status code --> \"%s\"" %
+                        resp.status_code)
                 return resp
             else:
                 print("Errored Response content is %s" % resp.content)
@@ -255,36 +267,84 @@ if __name__ == "__main__":
     currentVersion = "Date: May-14-2021  (version 1)"
 
     if "-version" in str(sys.argv).lower():
-        strLine = "***      {0}  -  {1}      ***".format(os.path.basename(sys.argv[0]), currentVersion)
-        print("*" * len(strLine) + "\n" + strLine + "\n" + "*" * len(strLine), flush=True)
+        strLine = "***      {0}  -  {1}      ***".format(
+            os.path.basename(sys.argv[0]), currentVersion)
+        print(
+            "*" *
+            len(strLine) +
+            "\n" +
+            strLine +
+            "\n" +
+            "*" *
+            len(strLine),
+            flush=True)
         sys.exit(0)
 
     # telegram settings
-    if 'telegram_token' in os.environ: telegram_token = os.environ['telegram_token']
-    else: telegram_token = ''
-    if 'telegram_chat_id' in os.environ:  telegram_chat_id = os.environ['telegram_chat_id']
-    else: telegram_chat_id = ''
+    if 'telegram_token' in os.environ:
+        telegram_token = os.environ['telegram_token']
+    else:
+        telegram_token = ''
+    if 'telegram_chat_id' in os.environ:
+        telegram_chat_id = os.environ['telegram_chat_id']
+    else:
+        telegram_chat_id = ''
 
     # whatsapp settings
-    if 'TWILIO_AUTH_TOKEN' in os.environ: TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
-    else: TWILIO_AUTH_TOKEN = ''
-    if 'TWILIO_AUTH_SID' in os.environ: TWILIO_AUTH_SID =  os.environ['TWILIO_AUTH_SID']
-    else: TWILIO_AUTH_SID = ''
+    if 'TWILIO_AUTH_TOKEN' in os.environ:
+        TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+    else:
+        TWILIO_AUTH_TOKEN = ''
+    if 'TWILIO_AUTH_SID' in os.environ:
+        TWILIO_AUTH_SID = os.environ['TWILIO_AUTH_SID']
+    else:
+        TWILIO_AUTH_SID = ''
 
     warnings.filterwarnings("ignore")
-    parser = argparse.ArgumentParser(add_help=False, description='Vaccine Finder')
+    parser = argparse.ArgumentParser(
+        add_help=False, description='Vaccine Finder')
     parser.parse_known_args()
 
     requiredArgs = parser.add_argument_group('required arguments')
     optionalArgs = parser.add_argument_group('optional arguments')
 
-    requiredArgs.add_argument('-a', '--age', help='Enter required age to get vaccine availability', required=True)
-    requiredArgs.add_argument('-p', '--pincode', help='Enter area pincode', required=True)
-    optionalArgs.add_argument('-e', '--email', help='Enter email to receive alert', required=False)
-    optionalArgs.add_argument('-d', '--days', help='Enter no. of days to search', required=False)
-    optionalArgs.add_argument("-v", "--verbose", action='store_true', default=False, help="print out the progress")
-    optionalArgs.add_argument("-version", action='version', version='', help="print the version of the script")
-    optionalArgs.add_argument("-h", "-help", "--help", action="help", help="Show this help message and exit")
+    requiredArgs.add_argument(
+        '-a',
+        '--age',
+        help='Enter required age to get vaccine availability',
+        required=True)
+    requiredArgs.add_argument(
+        '-p',
+        '--pincode',
+        help='Enter area pincode',
+        required=True)
+    optionalArgs.add_argument(
+        '-e',
+        '--email',
+        help='Enter email to receive alert',
+        required=False)
+    optionalArgs.add_argument(
+        '-d',
+        '--days',
+        help='Enter no. of days to search',
+        required=False)
+    optionalArgs.add_argument(
+        "-v",
+        "--verbose",
+        action='store_true',
+        default=False,
+        help="print out the progress")
+    optionalArgs.add_argument(
+        "-version",
+        action='version',
+        version='',
+        help="print the version of the script")
+    optionalArgs.add_argument(
+        "-h",
+        "-help",
+        "--help",
+        action="help",
+        help="Show this help message and exit")
 
     args = parser.parse_args()
 
@@ -301,13 +361,24 @@ if __name__ == "__main__":
 
     default_return_codes = [200, 201, 204]
     base = datetime.datetime.today()
-    date_list = [base + datetime.timedelta(days=x) for x in range(int(numdays))]
+    date_list = [
+        base +
+        datetime.timedelta(
+            days=x) for x in range(
+            int(numdays))]
     date_str = [x.strftime("%d-%m-%Y") for x in date_list]
 
     flag = 1
     outputs = []
     p_table = PrettyTable()
-    p_table.field_names = ["Date", "Center", "Vaccine", "Capacity", "Price", "Address", "Slots"]
+    p_table.field_names = [
+        "Date",
+        "Center",
+        "Vaccine",
+        "Capacity",
+        "Price",
+        "Address",
+        "Slots"]
 
     op = Operations(args)
     op.process_data(date_str)
