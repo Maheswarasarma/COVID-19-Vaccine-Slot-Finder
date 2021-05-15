@@ -6,8 +6,8 @@ Vaccine Slot Availability Finder
 
 
 `usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-d DAYS] [-v] [-version] [-h]`
-
-```required arguments:
+```
+required arguments:
   -a AGE,     --age     | AGE      Enter required age to get vaccine availability
   -p PINCODE, --pincode | PINCODE  Enter area pincode
 
