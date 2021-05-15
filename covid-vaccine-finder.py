@@ -55,6 +55,8 @@ class Operations:
                              center["name"],
                              session["vaccine"],
                              session["available_capacity"],
+                             session["available_capacity_dose1"],
+                             session["available_capacity_dose2"],
                              center["fee_type"],
                              center["address"],
                              a_slots])
@@ -67,6 +69,8 @@ class Operations:
         print("Vaccine  : ", session["vaccine"])
         print("Price    : ", center["fee_type"])
         print("Capacity : ", session["available_capacity"])
+        print("Dose 1   : ", session["available_capacity_dose1"])
+        print("Dose 2   : ", session["available_capacity_dose2"])
         print("Address  : ", center["address"])
         if 'slots' in session:
             print("\nslots  :\n")
@@ -123,14 +127,16 @@ class Operations:
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if int(
-                                session["available_capacity"]) > 0 and int(
-                                session["min_age_limit"]) <= int(
-                                self.args.age):
-                            self.table_dump(center, session, p_table)
-                            with Capturing() as output:
-                                self.telegram_dump(inp_date, center, session)
-                            outputs.append(output)
+                        if int((session["available_capacity"] > 0
+                                or session["available_capacity_dose1"] > 0
+                                or session["available_capacity_dose2"] > 0) and
+                                int(session["min_age_limit"]) <= int(self.args.age)):
+                            if session['date'] == inp_date:
+                                self.table_dump(center, session, p_table)
+                                with Capturing() as output:
+                                    self.telegram_dump(
+                                        inp_date, center, session)
+                                outputs.append(output)
 
     # Method to send email
     def send_mail(self, body):
@@ -285,7 +291,7 @@ def signal_handler(signal, frame):
 if __name__ == "__main__":
 
     signal.signal(signal.SIGINT, signal_handler)
-    currentVersion = "Date: May-14-2021  (version 1)"
+    currentVersion = "Date: May-16-2021  (version 1.1)"
 
     if "-version" in str(sys.argv).lower():
         strLine = "***      {0}  -  {1}      ***".format(
@@ -397,6 +403,8 @@ if __name__ == "__main__":
         "Center",
         "Vaccine",
         "Capacity",
+        "Dose 1",
+        "Dose 2",
         "Price",
         "Address",
         "Slots"]
@@ -405,7 +413,7 @@ if __name__ == "__main__":
     op.process_data(date_str)
 
     if flag == 1:
-        p_table.add_row(['-', '-', '-', '-', '-', '-', '-'])
+        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-'])
 
     # print table to console
     print(p_table)
