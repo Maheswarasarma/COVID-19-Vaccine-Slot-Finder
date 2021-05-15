@@ -2,6 +2,10 @@
 
 ## Getting Started
 
+## Pre-requisites
+
+Recommended python version `Python 3.8.0`
+
 ## Installation
 
 Run the following command in your terminal before running the script `pip install -r requirements.txt`
