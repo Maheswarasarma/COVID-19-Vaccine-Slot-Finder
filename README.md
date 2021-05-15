@@ -6,6 +6,8 @@
 
 Run the following command in your terminal before running the script `pip install -r requirements.txt`
 
+
+## Usage
 Vaccine Slot Availability Finder
 
 
