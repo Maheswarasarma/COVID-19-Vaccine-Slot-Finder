@@ -4,11 +4,17 @@
 
 ## Pre-requisites
 
-Recommended python version `Python 3.8.0`
+Recommended python version `Python 3.0+`
+
+## Setting up Environment
+
+1. Create virtual env using `virtualenv env --python python3`
+2. source the new env using `source env/bin/activate`
+
 
 ## Installation
 
-Run the following command in your terminal before running the script `pip install -r requirements.txt`
+Upon successful completion of setup, run the following command in your terminal  `pip install -r requirements.txt`
 
 
 ## Usage
