@@ -7,7 +7,6 @@ import os
 import sys
 import json
 import signal
-import twilio
 import smtplib
 import requests
 import warnings
@@ -243,7 +242,7 @@ class RestOperations(Operations):
 
 
 # Function to handle signal
-def signal_handler(signal, frame):
+    def signal_handler(signal, frame):
     print('\n\nCtrl+C received\n', flush=True)
     sys.exit(1)
 
