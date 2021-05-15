@@ -17,7 +17,6 @@ from io import StringIO
 from datetime import date
 from functools import partial
 from twilio.rest import Client
-import win32com.client as win32
 from prettytable import PrettyTable
 
 # ################### C L A S S E S ####################### #
@@ -134,15 +133,34 @@ class Operations:
     def send_mail(self, body):
         if self.args.email:
             print("sending email ..")
-            outlook = win32.Dispatch('outlook.application')
-            mail = outlook.CreateItem(0)
+            sender = self.args.email
             recipients = [self.args.email]
-            mail.To = ", ".join(recipients)
-            mail.Subject = 'Vaccine Availabilty as on %s' % str(
+            subject = 'Vaccine Availabilty as on %s' % str(
                 date.today()).replace('-', '/')
-            mail.HTMLbody = """<html>%s</html>""" % (
+            email_body = """<html>%s</html>""" % (
                 body.get_html_string(format=True))
-            mail.Send()
+            try:
+                try:
+                    import win32com.client as win32
+                    outlook = win32.Dispatch('outlook.application')
+                    mail = outlook.CreateItem(0)
+                    mail.To = ", ".join(recipients)
+                    mail.Subject = subject
+                    mail.HTMLbody = email_body
+                    mail.Send()
+                except ModuleNotFoundError:
+                    msg = email.message.Message()
+                    sender = self.args.email
+                    msg['Subject'] = subject
+                    msg['From'] = sender
+                    msg['To'] = ", ".join(recipients)
+                    msg.add_header('Content-Type', 'text/html')
+                    msg.set_payload(email_body)
+                    s = smtplib.SMTP('localhost')
+                    s.sendmail(sender, recipients, msg.as_string())
+                    s.quit()
+            except ConnectionRefusedError:
+                print("Unable to send email due to connection issue")
 
 
 class RestOperations(Operations):
