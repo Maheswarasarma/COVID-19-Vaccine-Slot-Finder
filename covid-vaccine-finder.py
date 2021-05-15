@@ -53,12 +53,12 @@ class Operations:
         if a_slots != '':
             flag = 0
             p_table.add_row([session["date"],
-                             center["name"],
-                             session["vaccine"],
-                             session["available_capacity"],
-                             center["fee_type"],
-                             center["address"],
-                             a_slots])
+                                              center["name"],
+                                              session["vaccine"],
+                                              session["available_capacity"],
+                                              center["fee_type"],
+                                              center["address"],
+                                              a_slots])
 
     # Method to generate text msg
     def telegram_dump(self, inp_date, center, session):
@@ -77,31 +77,33 @@ class Operations:
             print('\n\n')
 
     # Method to send telegram msg
-    def do_telegram(self, t_data):
-        self._telegram_token = ''
-        self._telegram_chat_id = ''
+    def do_telegram(self, t_data, token, t_id):
+        self._telegram_token = token.strip()
+        self._telegram_chat_id = t_id.strip()
         alert_text = t_data
-        if self._telegram_token and self._telegram_chat_id: 
+        if bool(self._telegram_token and self._telegram_chat_id): 
+            print("sending telegram ..")
             URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self._telegram_token,
-                                                                                            self._telegram_chat_id, alert_text)
+                                                                                                                                                                                       self._telegram_chat_id, 
+                                                                                                                                                                                       alert_text)
             ro = RestOperations(self.args)
             response = ro.post_operation(URL,
-                                         headers={
-                                             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
-                                             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
-                                         expected_return_code=200)
+                                                                        headers={
+                                                                                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
+                                           AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
+                                                                        expected_return_code=200)
 
     # Method to send whatsapp msg
-    def do_whatsapp(self, d_data):
-        os.environ['TWILIO_AUTH_TOKEN'] = ''
-        os.environ['TWILIO_ACCOUNT_SID'] = ''
+    def do_whatsapp(self, d_data, token, w_id):
+        os.environ['TWILIO_AUTH_TOKEN'] = token
+        os.environ['TWILIO_ACCOUNT_SID'] = w_id
         client = Client()
         self._from_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
         self._to_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
 
         client.messages.create(body=d_data,
-                               from_=self._from_whatsapp_number,
-                               to=self._to_whatsapp_number)
+                                                         from_=self._from_whatsapp_number,
+                                                         to=self._to_whatsapp_number)
 
     # Method to get and process the data
     def process_data(self, p_date_str):
@@ -111,14 +113,14 @@ class Operations:
                 .format(self.args.pincode, inp_date)
             ro = RestOperations(self.args)
             response = ro.get_operation(URL,
-                                        headers={
-                                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
-                                            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
-                                        expected_return_code=200)
+                                                                      headers={
+                                                                                         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
+                                          AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
+                                                                      expected_return_code=200)
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if int(session["available_capacity"]) > 0 and int(session["min_age_limit"]) <= int(
+                        if int(session["available_capacity"]) >0 and int(session["min_age_limit"]) <= int(
                                 self.args.age):
                             self.table_dump(center, session, p_table)
                             with Capturing() as output:
@@ -140,11 +142,11 @@ class Operations:
 class RestOperations(Operations):
 
     def get_operation(self,
-                      url,
-                      headers,
-                      params=None,
-                      verify=False,
-                      expected_return_code=None):
+                                          url,
+                                          headers,
+                                          params=None,
+                                          verify=False,
+                                          expected_return_code=None):
 
         """
         Method to perform GET Rest API operation
@@ -163,9 +165,9 @@ class RestOperations(Operations):
                 url, headers, params, expected_return_code))
         try:
             resp = requests.get(url=url,
-                                headers=headers,
-                                params=params,
-                                verify=verify)
+                                                     headers=headers,
+                                                     params=params,
+                                                     verify=verify)
 
             if isinstance(expected_return_code, int):
                 expected_return_code = [expected_return_code]
@@ -189,11 +191,11 @@ class RestOperations(Operations):
             raise
 
     def post_operation(self,
-                       url,
-                       headers,
-                       params=None,
-                       verify=False,
-                       expected_return_code=None):
+                                            url,
+                                            headers,
+                                            params=None,
+                                            verify=False,
+                                            expected_return_code=None):
 
         """
         Method to perform POST Rest API operation
@@ -217,9 +219,9 @@ class RestOperations(Operations):
             expected_return_codes = self.default_return_codes if expected_return_code is None else expected_return_code
         try:
             resp = requests.post(url=url,
-                                 headers=headers,
-                                 params=params,
-                                 verify=verify)
+                                                       headers=headers,
+                                                       params=params,
+                                                       verify=verify)
 
             if resp.status_code in expected_return_codes:
                 if args.verbose: print("Check response status code --> \"%s\"" % resp.status_code)
@@ -256,6 +258,18 @@ if __name__ == "__main__":
         strLine = "***      {0}  -  {1}      ***".format(os.path.basename(sys.argv[0]), currentVersion)
         print("*" * len(strLine) + "\n" + strLine + "\n" + "*" * len(strLine), flush=True)
         sys.exit(0)
+
+    # telegram settings
+    if 'telegram_token' in os.environ: telegram_token = os.environ['telegram_token']
+    else: telegram_token = ''
+    if 'telegram_chat_id' in os.environ:  telegram_chat_id = os.environ['telegram_chat_id']
+    else: telegram_chat_id = ''
+
+    # whatsapp settings
+    if 'TWILIO_AUTH_TOKEN' in os.environ: TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+    else: TWILIO_AUTH_TOKEN = ''
+    if 'TWILIO_AUTH_SID' in os.environ: TWILIO_AUTH_SID =  os.environ['TWILIO_AUTH_SID']
+    else: TWILIO_AUTH_SID = ''
 
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser(add_help=False, description='Vaccine Finder')
@@ -310,9 +324,10 @@ if __name__ == "__main__":
         if outputs:
             for out in outputs:
                 data += '\n'.join(out)
-            op.do_telegram(data)
+            op.do_telegram(data, telegram_token, telegram_chat_id)
 
         # send email if opted
         if args.email:
             op.send_mail(p_table)
-            pass
+
+# End of script
