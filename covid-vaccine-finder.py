@@ -17,6 +17,7 @@ from io import StringIO
 from datetime import date
 from functools import partial
 from twilio.rest import Client
+import win32com.client as win32
 from prettytable import PrettyTable
 
 # ################### C L A S S E S ####################### #
@@ -77,29 +78,30 @@ class Operations:
 
     # Method to send telegram msg
     def do_telegram(self, t_data):
-        telegram_token = 'XXXXXXXXXXXXXXXXX'
-        telegram_chat_id = '@TelegramBotLink'
+        self._telegram_token = ''
+        self._telegram_chat_id = ''
         alert_text = t_data
-        URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(telegram_token,
-                                                                                        telegram_chat_id, alert_text)
-        ro = RestOperations(self.args)
-        response = ro.post_operation(URL,
-                                     headers={
-                                         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
-                                         AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
-                                     expected_return_code=200)
+        if self._telegram_token and self._telegram_chat_id: 
+            URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(self._telegram_token,
+                                                                                            self._telegram_chat_id, alert_text)
+            ro = RestOperations(self.args)
+            response = ro.post_operation(URL,
+                                         headers={
+                                             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) \
+                                             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
+                                         expected_return_code=200)
 
     # Method to send whatsapp msg
     def do_whatsapp(self, d_data):
-        os.environ['TWILIO_AUTH_TOKEN'] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-        os.environ['TWILIO_ACCOUNT_SID'] = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+        os.environ['TWILIO_AUTH_TOKEN'] = ''
+        os.environ['TWILIO_ACCOUNT_SID'] = ''
         client = Client()
-        from_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
-        to_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
+        self._from_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
+        self._to_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
 
         client.messages.create(body=d_data,
-                               from_=from_whatsapp_number,
-                               to=to_whatsapp_number)
+                               from_=self._from_whatsapp_number,
+                               to=self._to_whatsapp_number)
 
     # Method to get and process the data
     def process_data(self, p_date_str):
@@ -125,19 +127,15 @@ class Operations:
 
     # Method to send email
     def send_mail(self, body):
-        print("sending email ..")
-        msg = email.message.Message()
-        sender = mailto
-        recipients = [mailto]
-        msg['Subject'] = 'Vaccine Availabilty as on %s' % str(date.today()).replace('-', '/')
-        msg['From'] = sender
-        msg['To'] = ", ".join(recipients)
-        msg.add_header('Content-Type', 'text/html')
-        msg.set_payload(body)
-        s = smtplib.SMTP('smtp.gmail.com', 587)
-        s.sendmail(sender, recipients, msg.as_string())
-        s.quit()
-
+        if self.args.email:
+            print("sending email ..")
+            outlook=win32.Dispatch('outlook.application')
+            mail=outlook.CreateItem(0)
+            recipients = [self.args.email]
+            mail.To=", ".join(recipients)
+            mail.Subject='Vaccine Availabilty as on %s' % str(date.today()).replace('-', '/')
+            mail.HTMLbody="""<html>%s</html>""" % (body.get_html_string())
+            mail.Send()
 
 class RestOperations(Operations):
 
@@ -242,7 +240,7 @@ class RestOperations(Operations):
 
 
 # Function to handle signal
-    def signal_handler(signal, frame):
+def signal_handler(signal, frame):
     print('\n\nCtrl+C received\n', flush=True)
     sys.exit(1)
 
