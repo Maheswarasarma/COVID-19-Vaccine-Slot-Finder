@@ -2,6 +2,10 @@
 
 ## Getting Started
 
+## Installation
+
+Run the following command in your terminal before running the script `pip install -r requirements.txt`
+
 Vaccine Slot Availability Finder
 
 
