@@ -136,7 +136,7 @@ class Operations:
             recipients = [self.args.email]
             mail.To=", ".join(recipients)
             mail.Subject='Vaccine Availabilty as on %s' % str(date.today()).replace('-', '/')
-            mail.HTMLbody="""<html>%s</html>""" % (body.get_html_string())
+            mail.HTMLbody="""<html>%s</html>""" % (body.get_html_string(format=True))
             mail.Send()
 
 class RestOperations(Operations):
