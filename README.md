@@ -17,9 +17,33 @@ Recommended python version `Python 3.0+`
 Upon successful completion of setup, run the following command in your terminal  `pip install -r requirements.txt`
 
 
+## Optional Feature - Telegram messaging
+set env variables `telegram_token and telegram_chat_id`
+
+Example:<br/>
+
+In Linux Bash-shell <br/>
+`export telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+<br/>
+ `export telegram_chat_id=@TelegramGroup`
+ 
+In Linux C-shell <br/>
+`setenv telegram_token 1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+<br/>
+`setenv telegram_chat_id 1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+
+In Windows <br/>
+`set telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+<br/>
+`set telegram_chat_id=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+
+
+## Telegram Token/ID generation <br/>
+Follow below link on how to generate telegram token/ID <br/>
+https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token
+
 ## Usage
 Vaccine Slot Availability Finder
-
 
 `usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-d DAYS] [-v] [-version] [-h]`
 ```
@@ -33,7 +57,6 @@ optional arguments:
   -v,       --verbose         print out the progress
   -version  --version         print the version of the script
   -h,       -help, --help     Show this help message and exit
-
 
 
 # Sample Output:
@@ -65,4 +88,3 @@ optional arguments:
 |            |                       |            |          |       |                                                                  |                 |
 +------------+-----------------------+------------+----------+-------+------------------------------------------------------------------+-----------------+
  
-
