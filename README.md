@@ -25,17 +25,17 @@ Example:<br/>
 In Linux Bash-shell <br/>
 `export telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
 <br/>
- `export telegram_chat_id=@TelegramGroup`
+ `export telegram_chat_id=@TelegramBot`
  
 In Linux C-shell <br/>
 `setenv telegram_token 1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
 <br/>
-`setenv telegram_chat_id 1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+`setenv telegram_chat_id @TelegramBot`
 
 In Windows <br/>
 `set telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
 <br/>
-`set telegram_chat_id=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
+`set telegram_chat_id=@TelegramBot`
 
 
 ## Telegram Token/ID generation <br/>
