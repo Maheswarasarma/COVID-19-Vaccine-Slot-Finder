@@ -16,7 +16,7 @@ import email.message
 from io import StringIO
 from datetime import date
 from functools import partial
-from twilio.rest import Client
+# from twilio.rest import Client
 from prettytable import PrettyTable
 
 # ################### C L A S S E S ####################### #
