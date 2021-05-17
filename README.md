@@ -106,4 +106,6 @@ optional arguments:
 ![image](https://user-images.githubusercontent.com/25954119/118475510-f82a5c80-b729-11eb-8dcd-4083ffb95072.png)
 
 
+ ## Development
  
+ Want to contribute? Please feel free to raise pull request 😇
