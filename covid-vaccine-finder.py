@@ -12,11 +12,11 @@ import requests
 import warnings
 import datetime
 import argparse
+import pandas as pd
 import email.message
 from io import StringIO
 from datetime import date
 from functools import partial
-# from twilio.rest import Client
 from prettytable import PrettyTable
 
 # ################### C L A S S E S ####################### #
@@ -99,24 +99,22 @@ class Operations:
             if self.args.verbose:
                 print("No telegram tokens found!")
 
-    # Method to send whatsapp msg
-    def do_whatsapp(self, d_data, token, w_id):
-        os.environ['TWILIO_AUTH_TOKEN'] = token
-        os.environ['TWILIO_ACCOUNT_SID'] = w_id
-        client = Client()
-        self._from_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
-        self._to_whatsapp_number = 'whatsapp:+91XXXXXXXXXX'
-
-        client.messages.create(body=d_data,
-                               from_=self._from_whatsapp_number,
-                               to=self._to_whatsapp_number)
-
     # Method to get and process the data
     def process_data(self, p_date_str):
         global outputs
         for inp_date in p_date_str:
-            URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={0}&date={1}" \
-                .format(self.args.pincode, inp_date)
+            if self.args.pincode:
+                URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={0}&date={1}" \
+                    .format(self.args.pincode, inp_date)
+            if self.args.district:
+                df = pd.read_csv('district_mapping.csv')
+                if self.args.district in df.values:
+                    district_id = df[df['district name'] == self.args.district].values[0][1]
+                    URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={0}&date={1}" \
+                        .format(district_id, inp_date)
+                else:
+                    print("Invalid district name!")
+                    sys.exit()
             ro = RestOperations(self.args)
             response = ro.get_operation(
                 URL,
@@ -127,10 +125,10 @@ class Operations:
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if int((session["available_capacity"] > 0
-                                or session["available_capacity_dose1"] > 0
-                                or session["available_capacity_dose2"] > 0) and
-                                int(session["min_age_limit"]) <= int(self.args.age)):
+                        if (session["available_capacity"] > 0 \
+                            or session["available_capacity_dose1"] > 0 \
+                            or session["available_capacity_dose2"] > 0) \
+                            and session["min_age_limit"] <= int(self.args.age):
                             if session['date'] == inp_date:
                                 self.table_dump(center, session, p_table)
                                 with Capturing() as output:
@@ -317,16 +315,6 @@ if __name__ == "__main__":
     else:
         telegram_chat_id = ''
 
-    # whatsapp settings
-    if 'TWILIO_AUTH_TOKEN' in os.environ:
-        TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
-    else:
-        TWILIO_AUTH_TOKEN = ''
-    if 'TWILIO_AUTH_SID' in os.environ:
-        TWILIO_AUTH_SID = os.environ['TWILIO_AUTH_SID']
-    else:
-        TWILIO_AUTH_SID = ''
-
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser(
         add_help=False, description='Vaccine Finder')
@@ -340,18 +328,23 @@ if __name__ == "__main__":
         '--age',
         help='Enter required age to get vaccine availability',
         required=True)
-    requiredArgs.add_argument(
+    optionalArgs.add_argument(
         '-p',
         '--pincode',
         help='Enter area pincode',
-        required=True)
+        required=False)
+    optionalArgs.add_argument(
+        '-district',
+        '--district',
+        help='Enter district name eg: Jagtial, Rangareddy',
+        required=False)
     optionalArgs.add_argument(
         '-e',
         '--email',
         help='Enter email to receive alert',
         required=False)
     optionalArgs.add_argument(
-        '-d',
+        '-days',
         '--days',
         help='Enter no. of days to search',
         required=False)
@@ -368,7 +361,6 @@ if __name__ == "__main__":
         help="print the version of the script")
     optionalArgs.add_argument(
         "-h",
-        "-help",
         "--help",
         action="help",
         help="Show this help message and exit")
@@ -385,6 +377,10 @@ if __name__ == "__main__":
         numdays = args.days
     else:
         numdays = 1
+
+    if not (args.pincode or args.district):
+        print("Please provide either pincode or district name")
+        sys.exit()
 
     default_return_codes = [200, 201, 204]
     base = datetime.datetime.today()
@@ -414,6 +410,9 @@ if __name__ == "__main__":
 
     if flag == 1:
         p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-'])
+        print("\nNo slots availabe!")
+    else:
+        print("\n Available slots:\n")
 
     # print table to console
     print(p_table)
