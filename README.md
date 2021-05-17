@@ -1,5 +1,8 @@
 # COVID-19-Vaccine-Slot-Finder
 
+Note: - Due to privacy issues in linux systems requests are getting blocked <br>
+however, script is working fine in Windows platform
+
 ## Getting Started
 
 ## Pre-requisites
