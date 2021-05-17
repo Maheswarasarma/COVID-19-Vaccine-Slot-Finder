@@ -1,4 +1,4 @@
-# COVID-19-Vaccine-Slot-Finder
+exa# COVID-19-Vaccine-Slot-Finder
 
 Note: - Due to privacy issues in linux systems requests are getting blocked <br>
 however, script is working fine in Windows platform
@@ -9,18 +9,23 @@ however, script is working fine in Windows platform
 
 Recommended python version `Python 3.0+`
 
+
 ## Setting up Environment
 
-1. Create virtual env using `virtualenv env --python python3`
-2. source the new env using `source env/bin/activate`
+1. Download source code `git clone https://github.com/Maheswarasarma/COVID-19-Vaccine-Slot-Finder.git`
+2. change directory `cd COVID-19-Vaccine-Slot-Finder`
+3. Create virtual env using `virtualenv env --python python`
+4. Activate created env `source env/bin/activate`
+5. Upon successful completion of setup, run the following command in your terminal  `pip install -r requirements.txt`
 
 
-## Installation
-
-Upon successful completion of setup, run the following command in your terminal  `pip install -r requirements.txt`
+## Running the script
+1. Run command `python covid-vaccine-finder.py --age <age> -district <district> -days <no.of.days> --email <example@gmail.com>` for district based search
+2. Run command `python covid-vaccine-finder.py --age <age> --pincode <pincode> -days <no.of.days> --email <example@gmail.com>` for pin based search
 
 
 ## Optional Feature - Telegram messaging
+This feature will send sms to telegram chat when slots are available <br><br>
 set env variables `telegram_token and telegram_chat_id`
 
 Example:<br/>
