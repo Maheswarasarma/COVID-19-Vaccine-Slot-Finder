@@ -14,9 +14,7 @@ We Highly Recommended to use `Anaconda`  https://www.anaconda.com/
 
 1. Download source code `git clone https://github.com/Maheswarasarma/COVID-19-Vaccine-Slot-Finder.git`
 2. change directory `cd COVID-19-Vaccine-Slot-Finder`
-3. Create virtual env using `virtualenv env --python python`
-4. Activate created env `source env/bin/activate`
-5. Upon successful completion of setup, execute  `pip install -r requirements.txt`
+3. Go to anaconda prompt and execute  `pip install -r requirements.txt`
 
 
 ## Running the script
