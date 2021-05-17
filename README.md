@@ -17,6 +17,12 @@ We Highly Recommended to use `Anaconda`  https://www.anaconda.com/
 3. Go to anaconda prompt and execute  `pip install -r requirements.txt`
 
 
+## Update
+
+Added `run.bat` to execute script every 10 min <br>
+
+Things to be done before running batch file: edit batch file to contain age/pincode/email properly<br><br>
+
 ## Running the script
 1. `python covid-vaccine-finder.py --age <age> -district <district> -days <no.of.days> --email <email>` for district based search
 2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -days <no.of.days> --email <email>` for pincode based search
