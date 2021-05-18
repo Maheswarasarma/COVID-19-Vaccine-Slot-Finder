@@ -109,7 +109,7 @@ class Operations:
             if self.args.district:
                 df = pd.read_csv('district_mapping.csv')
                 if self.args.district.title() in df.values:
-                    district_id = df[df['district name'] == self.args.district].values[0][1]
+                    district_id = df[df['district name'] == self.args.district.title()].values[0][1]
                     URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={0}&date={1}" \
                         .format(district_id, inp_date)
                 else:
