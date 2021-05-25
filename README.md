@@ -16,7 +16,7 @@ We Highly Recommended to use `Anaconda`  https://www.anaconda.com/
 2. change directory `cd COVID-19-Vaccine-Slot-Finder`
 3. Go to anaconda prompt and execute  `pip install -r requirements.txt`
 
-<br><br>
+<br>
 Note:- you can skip step 2 and 3 if you are executing `run.bat` <br><br>
 Make sure to edit run.bat (add your age/pincode/district/email) before running it
 
