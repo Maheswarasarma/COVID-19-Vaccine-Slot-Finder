@@ -59,6 +59,8 @@ class Operations:
                              session["available_capacity_dose2"],
                              center["fee_type"],
                              center["address"],
+                             center["district_name"],
+                             center["pincode"],
                              a_slots])
 
     # Method to generate text msg
@@ -72,6 +74,8 @@ class Operations:
         print("Dose 1   : ", session["available_capacity_dose1"])
         print("Dose 2   : ", session["available_capacity_dose2"])
         print("Address  : ", center["address"])
+        print("District : ", center["district_name"])
+        print("Pincode  : ", center["pincode"])
         if 'slots' in session:
             print("\nslots  :\n")
             for slot in session["slots"]:
@@ -403,13 +407,15 @@ if __name__ == "__main__":
         "Dose 2",
         "Price",
         "Address",
+        "District",
+        "Pincode",
         "Slots"]
 
     op = Operations(args)
     op.process_data(date_str)
 
     if flag == 1:
-        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-'])
+        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
         print("\nNo slots availabe!")
     else:
         print("\n Available slots:\n")
