@@ -60,7 +60,7 @@ https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token
 ## Usage
 Vaccine Slot Availability Finder
 
-`usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-d DAYS] [-v] [-version] [-h]`
+`usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-days DAYS] [-v] [-version] [-h]`
 ```
 required arguments:
   -a <AGE>,             --age          <AGE>        Enter required age to get vaccine availability
@@ -68,7 +68,7 @@ required arguments:
   
 optional arguments:
   -e <EMAIL>,           --email        <EMAIL>      Enter email to receive alert
-  -d <DAYS>,            --days         <DAYS>       Enter no. of days to search
+  -days <DAYS>,         --days         <DAYS>       Enter no. of days to search
   -v,                   --verbose                   Print out the progress
   -version              --version                   Print the version of the script
   -h,                   -help, --help               Show this help message and exit
