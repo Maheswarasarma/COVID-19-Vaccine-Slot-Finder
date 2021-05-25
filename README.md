@@ -27,8 +27,8 @@ Added `run.bat` to execute script every 10 min <br>
 Things to be done before running batch file: edit batch file to contain age/pincode/email properly<br><br>
 
 ## Running the script
-1. `python covid-vaccine-finder.py --age <age> -district <district> -days <no.of.days> --email <email>` for district based search
-2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -days <no.of.days> --email <email>` for pincode based search
+1. `python covid-vaccine-finder.py --age <age> -district <district> -days <no.of.days> --dose <1|2> --email <email>` for district based search
+2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -days <no.of.days> --dose <1|2> --email <email>` for pincode based search
 
 
 ## Optional Feature - Telegram messaging
