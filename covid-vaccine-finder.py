@@ -129,16 +129,41 @@ class Operations:
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if (session["available_capacity"] > 0 \
-                            or session["available_capacity_dose1"] > 0 \
-                            or session["available_capacity_dose2"] > 0) \
-                            and session["min_age_limit"] <= int(self.args.age):
-                            if session['date'] == inp_date:
-                                self.table_dump(center, session, p_table)
-                                with Capturing() as output:
-                                    self.telegram_dump(
-                                        inp_date, center, session)
-                                outputs.append(output)
+                        if args.dose:
+                            if int(args.dose) == 1:
+                                if (session["available_capacity"] > 0
+                                    and session["available_capacity_dose1"] > 0) \
+                                        and session["min_age_limit"] <= int(self.args.age):
+                                    if session['date'] == inp_date:
+                                        self.table_dump(center, session, p_table)
+                                        with Capturing() as output:
+                                            self.telegram_dump(
+                                                inp_date, center, session)
+                                        outputs.append(output)
+                            elif int(args.dose) == 2:
+                                if (session["available_capacity"] > 0
+                                    and session["available_capacity_dose2"] > 0) \
+                                        and session["min_age_limit"] <= int(self.args.age):
+                                    if session['date'] == inp_date:
+                                        self.table_dump(center, session, p_table)
+                                        with Capturing() as output:
+                                            self.telegram_dump(
+                                                inp_date, center, session)
+                                        outputs.append(output)
+                            else:
+                                print('please provide dose value either 1 or 2')
+                                sys.exit()
+                        else:
+                            if (session["available_capacity"] > 0
+                                or session["available_capacity_dose1"] > 0
+                                or session["available_capacity_dose2"] > 0) \
+                                    and session["min_age_limit"] <= int(self.args.age):
+                                if session['date'] == inp_date:
+                                    self.table_dump(center, session, p_table)
+                                    with Capturing() as output:
+                                        self.telegram_dump(
+                                            inp_date, center, session)
+                                    outputs.append(output)
 
     # Method to send email
     def send_mail(self, body):
@@ -341,6 +366,11 @@ if __name__ == "__main__":
         '-district',
         '--district',
         help='Enter district name eg: Jagtial, Rangareddy',
+        required=False)
+    optionalArgs.add_argument(
+        '-dose',
+        '--dose',
+        help='Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2',
         required=False)
     optionalArgs.add_argument(
         '-e',

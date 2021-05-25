@@ -67,8 +67,9 @@ required arguments:
   -p <PINCODE>,         --pincode      <PINCODE>    Enter area pincode
   
 optional arguments:
-  -e <EMAIL>,           --email        <EMAIL>      Enter email to receive alert
+  -e    <EMAIL>,        --email        <EMAIL>      Enter email to receive alert
   -days <DAYS>,         --days         <DAYS>       Enter no. of days to search
+  -dose <DOSE>,         --dose         <DOSE>       Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
   -v,                   --verbose                   Print out the progress
   -version              --version                   Print the version of the script
   -h,                   -help, --help               Show this help message and exit
