@@ -480,6 +480,6 @@ if __name__ == "__main__":
 
         # send email if opted
         if args.email:
-            op.send_mail(p_table.get_string(sortby="Date"))
+            op.send_mail(p_table)
 
 # End of script
