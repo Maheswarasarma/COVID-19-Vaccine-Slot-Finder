@@ -27,8 +27,8 @@ Added `run.bat` to execute script every 10 min <br>
 Things to be done before running batch file: edit batch file to contain age/pincode/email properly<br><br>
 
 ## Running the script
-1. `python covid-vaccine-finder.py --age <age> -district <district> -weeks <no.of.weeks> --dose <1|2> --email <email>` for district based search
-2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -weeks <no.of.weeks> --dose <1|2> --email <email>` for pincode based search
+1. `python covid-vaccine-finder.py --age <age> --district <district> --weeks <no.of.weeks> --dose <1|2> --email <email>` for district based search
+2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> --weeks <no.of.weeks> --dose <1|2> --email <email>` for pincode based search
 
 
 ## Optional Feature - Telegram messaging
@@ -67,13 +67,13 @@ required arguments:
   -p <PINCODE>,         --pincode      <PINCODE>    Enter area pincode
   
 optional arguments:
-  -e     <EMAIL>,        --email        <EMAIL>     Enter email to receive alert
-  -weeks <WEEKS>,        --weeks        <WEEKS>     Enter no. of weeks to search
-  -dose  <DOSE>,         --dose         <DOSE>      Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
-  -v,                   --verbose                   Print out the progress
-  -version              --version                   Print the version of the script
-  -h,                   -help, --help               Show this help message and exit
-  -district <DISTRICT>, --district     <DISTRICT>   Enter district name eg: Jagtial, Rangareddy
+  -e     <EMAIL>,        --email        <EMAIL>      Enter email to receive alert
+  -weeks <WEEKS>,        --weeks        <WEEKS>      Enter no. of weeks to search
+  -dose  <DOSE>,         --dose         <DOSE>       Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
+  -v,                    --verbose                   Print out the progress
+  -version               --version                   Print the version of the script
+  -h,                    -help, --help               Show this help message and exit
+  -district <DISTRICT>,  --district     <DISTRICT>   Enter district name eg: Jagtial, Rangareddy
 ```
 
 ## Sample output from terminal
