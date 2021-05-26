@@ -65,9 +65,9 @@ class Operations:
 
     # Method to generate text msg
     def telegram_dump(self, inp_date, center, session):
-        print("Vaccine Available on: {}".format(inp_date))
-        print("-" * 50)
-        print("Center   : ", center["name"])
+        vac = " Vaccine Available on: {0} ".format(inp_date)
+        print(vac.center(50, '-'))
+        print("\nCenter   : ", center["name"])
         print("Vaccine  : ", session["vaccine"])
         print("Price    : ", center["fee_type"])
         print("Capacity : ", session["available_capacity"])
@@ -80,7 +80,7 @@ class Operations:
             print("\nslots  :\n")
             for slot in session["slots"]:
                 print(slot)
-            print("-" * 50)
+            print(''.center(50, '-'))
             print('\n\n')
 
     # Method to send telegram msg
