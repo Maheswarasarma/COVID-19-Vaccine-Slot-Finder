@@ -27,8 +27,8 @@ Added `run.bat` to execute script every 10 min <br>
 Things to be done before running batch file: edit batch file to contain age/pincode/email properly<br><br>
 
 ## Running the script
-1. `python covid-vaccine-finder.py --age <age> -district <district> -days <no.of.days> --dose <1|2> --email <email>` for district based search
-2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -days <no.of.days> --dose <1|2> --email <email>` for pincode based search
+1. `python covid-vaccine-finder.py --age <age> -district <district> -weeks <no.of.weeks> --dose <1|2> --email <email>` for district based search
+2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> -weeks <no.of.weeks> --dose <1|2> --email <email>` for pincode based search
 
 
 ## Optional Feature - Telegram messaging
@@ -60,16 +60,16 @@ https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token
 ## Usage
 Vaccine Slot Availability Finder
 
-`usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-days DAYS] [-v] [-version] [-h]`
+`usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-weeks WEEKS] [-v] [-version] [-h]`
 ```
 required arguments:
   -a <AGE>,             --age          <AGE>        Enter required age to get vaccine availability
   -p <PINCODE>,         --pincode      <PINCODE>    Enter area pincode
   
 optional arguments:
-  -e    <EMAIL>,        --email        <EMAIL>      Enter email to receive alert
-  -days <DAYS>,         --days         <DAYS>       Enter no. of days to search
-  -dose <DOSE>,         --dose         <DOSE>       Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
+  -e     <EMAIL>,        --email        <EMAIL>     Enter email to receive alert
+  -weeks <WEEKS>,        --weeks        <WEEKS>     Enter no. of weeks to search
+  -dose  <DOSE>,         --dose         <DOSE>      Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
   -v,                   --verbose                   Print out the progress
   -version              --version                   Print the version of the script
   -h,                   -help, --help               Show this help message and exit
@@ -79,39 +79,38 @@ optional arguments:
 ## Sample output from terminal
 
 ```
-> python covid-vaccine-finder.py --age 46 -district Jagtial -days 7
+> python covid-vaccine-finder.py --age 46 -district Jagtial -weeks 1
 
-+------------+------------------------+------------+----------+--------+--------+-------+----------------------------------------------------------------+-----------------+
-|    Date    |         Center         |  Vaccine   | Capacity | Dose 1 | Dose 2 | Price |                            Address                             |      Slots      |
-+------------+------------------------+------------+----------+--------+--------+-------+----------------------------------------------------------------+-----------------+
-| 19-05-2021 | SAI SANJIVANI HOSPITAL | COVISHIELD |    97    |   0    |   -3   |  Paid | 15, NH 16, Adarsha Nagar, Boyawada, Metpally, Telangana 505325 | 09:00AM-11:00AM |
-|            |                        |            |          |        |        |       |                                                                | 11:00AM-01:00PM |
-|            |                        |            |          |        |        |       |                                                                | 01:00PM-03:00PM |
-|            |                        |            |          |        |        |       |                                                                | 03:00PM-06:00PM |
-|            |                        |            |          |        |        |       |                                                                |                 |
-| 20-05-2021 | SAI SANJIVANI HOSPITAL | COVISHIELD |    95    |   0    |   0    |  Paid | 15, NH 16, Adarsha Nagar, Boyawada, Metpally, Telangana 505325 | 09:00AM-11:00AM |
-|            |                        |            |          |        |        |       |                                                                | 11:00AM-01:00PM |
-|            |                        |            |          |        |        |       |                                                                | 01:00PM-03:00PM |
-|            |                        |            |          |        |        |       |                                                                | 03:00PM-06:00PM |
-|            |                        |            |          |        |        |       |                                                                |                 |
-| 22-05-2021 | SAI SANJIVANI HOSPITAL | COVISHIELD |    96    |   0    |   -4   |  Paid | 15, NH 16, Adarsha Nagar, Boyawada, Metpally, Telangana 505325 | 09:00AM-11:00AM |
-|            |                        |            |          |        |        |       |                                                                | 11:00AM-01:00PM |
-|            |                        |            |          |        |        |       |                                                                | 01:00PM-03:00PM |
-|            |                        |            |          |        |        |       |                                                                | 03:00PM-06:00PM |
-|            |                        |            |          |        |        |       |                                                                |                 |
-+------------+------------------------+------------+----------+--------+--------+-------+----------------------------------------------------------------+-----------------+
+ Available slots:
+
++------------+---------------------+---------+----------+--------+--------+-------+-----------------+---------+-----------------+
+|    Date    |        Center       | Vaccine | Capacity | Dose 1 | Dose 2 | Price |     Address     | Pincode |      Slots      |
++------------+---------------------+---------+----------+--------+--------+-------+-----------------+---------+-----------------+
+| 31-05-2021 | Allamayyagutta UPHC | COVAXIN |    10    |   0    |   10   |  Free | Allamaiah Gutta |  505326 | 10:00AM-11:00AM |
+|            |                     |         |          |        |        |       |                 |         | 11:00AM-12:00PM |
+|            |                     |         |          |        |        |       |                 |         | 12:00PM-01:00PM |
+|            |                     |         |          |        |        |       |                 |         | 01:00PM-04:00PM |
+|            |                     |         |          |        |        |       |                 |         |                 |
+| 31-05-2021 | Allamayyagutta UPHC | COVAXIN |    10    |   0    |   10   |  Free | Allamaiah Gutta |  505326 | 10:00AM-11:00AM |
+|            |                     |         |          |        |        |       |                 |         | 11:00AM-12:00PM |
+|            |                     |         |          |        |        |       |                 |         | 12:00PM-01:00PM |
+|            |                     |         |          |        |        |       |                 |         | 01:00PM-04:00PM |
+|            |                     |         |          |        |        |       |                 |         |                 |
++------------+---------------------+---------+----------+--------+--------+-------+-----------------+---------+-----------------+
 ```
 
 
 ## Sample Email output
 
-![image](https://user-images.githubusercontent.com/25954119/118475219-9964e300-b729-11eb-9687-6ea62a64d8bf.png)
+![image](https://user-images.githubusercontent.com/25954119/119632213-3ad8ec80-be2e-11eb-855e-b7ffe7306c08.png)
+
 
 
 
 ## Sample Telegram chat
 
-![image](https://user-images.githubusercontent.com/25954119/118475510-f82a5c80-b729-11eb-8dcd-4083ffb95072.png)
+![image](https://user-images.githubusercontent.com/25954119/119632361-5c39d880-be2e-11eb-9cc0-40a912607e66.png)
+
 
 
  ## Development
