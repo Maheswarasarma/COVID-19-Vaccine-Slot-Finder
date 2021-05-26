@@ -64,8 +64,10 @@ class Operations:
 
     # Method to generate text msg
     def telegram_dump(self, inp_date, center, session):
-        vac = " Vaccine Available on: {0} ".format(inp_date)
+        print(''.center(64, '-'))
+        vac = " Vaccine Available on {0} ".format(inp_date)
         print(vac.center(50, '-'))
+        print(''.center(64, '-'))
         print("\nCenter   : ", center["name"])
         print("Vaccine  : ", session["vaccine"])
         print("Price    : ", center["fee_type"])
