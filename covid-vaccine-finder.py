@@ -364,6 +364,7 @@ if __name__ == "__main__":
         required=False)
     optionalArgs.add_argument(
         '-w',
+        '-week',
         '-weeks',
         '--weeks',
         help='Enter no. of weeks to search',
