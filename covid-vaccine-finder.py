@@ -63,10 +63,10 @@ class Operations:
                              a_slots])
 
     # Method to generate text msg
-    def telegram_dump(self, inp_date, center, session):
+    def telegram_dump(self, center, session):
         print(''.center(64, '-'))
-        vac = " Vaccine Available on {0} ".format(inp_date)
-        print(vac.center(50, '-'))
+        vac = " Vaccine Available on {0} ".format(session['date'])
+        print(vac.center(45, '-'))
         print(''.center(64, '-'))
         print("\nCenter   : ", center["name"])
         print("Vaccine  : ", session["vaccine"])
@@ -135,22 +135,18 @@ class Operations:
                                 if (session["available_capacity"] > 0
                                     and session["available_capacity_dose1"] > 0) \
                                         and session["min_age_limit"] <= int(self.args.age):
-                                    if session['date'] == inp_date:
-                                        self.table_dump(center, session, p_table)
-                                        with Capturing() as output:
-                                            self.telegram_dump(
-                                                inp_date, center, session)
-                                        outputs.append(output)
+                                    self.table_dump(center, session, p_table)
+                                    with Capturing() as output:
+                                        self.telegram_dump(center, session)
+                                    outputs.append(output)
                             elif int(args.dose) == 2:
                                 if (session["available_capacity"] > 0
                                     and session["available_capacity_dose2"] > 0) \
                                         and session["min_age_limit"] <= int(self.args.age):
-                                    if session['date'] == inp_date:
-                                        self.table_dump(center, session, p_table)
-                                        with Capturing() as output:
-                                            self.telegram_dump(
-                                                inp_date, center, session)
-                                        outputs.append(output)
+                                    self.table_dump(center, session, p_table)
+                                    with Capturing() as output:
+                                        self.telegram_dump(center, session)
+                                    outputs.append(output)
                             else:
                                 print('please provide dose value either 1 or 2')
                                 sys.exit()
@@ -159,12 +155,10 @@ class Operations:
                                 or session["available_capacity_dose1"] > 0
                                 or session["available_capacity_dose2"] > 0) \
                                     and session["min_age_limit"] <= int(self.args.age):
-                                if session['date'] == inp_date:
-                                    self.table_dump(center, session, p_table)
-                                    with Capturing() as output:
-                                        self.telegram_dump(
-                                            inp_date, center, session)
-                                    outputs.append(output)
+                                self.table_dump(center, session, p_table)
+                                with Capturing() as output:
+                                    self.telegram_dump(center, session)
+                                outputs.append(output)
 
     # Method to send email
     def send_mail(self, body):
@@ -369,17 +363,20 @@ if __name__ == "__main__":
         help='Enter email to receive alert',
         required=False)
     optionalArgs.add_argument(
-        '-days',
-        '--days',
-        help='Enter no. of days to search',
+        '-w',
+        '-week',
+        '--weeks',
+        help='Enter no. of weeks to search',
         required=False)
     optionalArgs.add_argument(
         '-t',
+        '-token',
         '--token',
         help='Enter telegram token of length 46',
         required=False)
     optionalArgs.add_argument(
         '-c',
+        '-chat',
         '--chat',
         help='Enter telegram chat ID prefixed with \'@\' eg: @TelegramChat',
         required=False)
@@ -408,10 +405,10 @@ if __name__ == "__main__":
     if args.email:
         mailto = args.email
 
-    if args.days:
-        numdays = args.days
+    if args.weeks:
+        weekdays = args.weeks
     else:
-        numdays = 1
+        weekdays = 1
 
     if not (args.pincode or args.district):
         print("Please provide either pincode or district name")
@@ -433,12 +430,17 @@ if __name__ == "__main__":
 
     default_return_codes = [200, 201, 204]
     base = datetime.datetime.today()
+    current_week = base.isocalendar()[1]
+    no_days = current_week + int(weekdays)
+    t_weeks =  [x for x in range(current_week, no_days+1, 1)]
     date_list = [
         base +
         datetime.timedelta(
             days=x) for x in range(
-            int(numdays))]
-    date_str = [x.strftime("%d-%m-%Y") for x in date_list]
+            int(weekdays)*7)]
+    index = [[x.isocalendar()[1] for x in date_list].index(y) for y in t_weeks]
+    all_str = [x.strftime("%d-%m-%Y") for x in date_list]
+    date_str = [all_str[i] for i in index]
 
     flag = 1
     outputs = []
@@ -465,18 +467,19 @@ if __name__ == "__main__":
         print("\n Available slots:\n")
 
     # print table to console
-    print(p_table)
+    print(p_table.get_string(sortby="Date"))
 
     if flag == 0:
         data = ''
         # send a notification message in telegram
         if outputs:
-            for out in outputs:
-                data += '\n'.join(out)
-            op.do_telegram(data, telegram_token, telegram_chat_id)
+            for i in all_str:
+                date_data = [x for x in outputs if i in str(x)]
+                for data in date_data:
+                    op.do_telegram('\n'.join(data), telegram_token, telegram_chat_id)
 
         # send email if opted
         if args.email:
-            op.send_mail(p_table)
+            op.send_mail(p_table.get_string(sortby="Date"))
 
 # End of script
