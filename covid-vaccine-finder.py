@@ -169,7 +169,7 @@ class Operations:
             subject = 'Vaccine Availabilty as on %s' % str(
                 date.today()).replace('-', '/')
             email_body = """<html>%s</html>""" % (
-                body.get_html_string(format=True))
+                body.get_html_string(format=True, sortby="Date"))
             try:
                 try:
                     import win32com.client as win32
