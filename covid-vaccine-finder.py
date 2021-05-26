@@ -59,7 +59,6 @@ class Operations:
                              session["available_capacity_dose2"],
                              center["fee_type"],
                              center["address"],
-                             center["district_name"],
                              center["pincode"],
                              a_slots])
 
@@ -437,7 +436,6 @@ if __name__ == "__main__":
         "Dose 2",
         "Price",
         "Address",
-        "District",
         "Pincode",
         "Slots"]
 
@@ -445,7 +443,7 @@ if __name__ == "__main__":
     op.process_data(date_str)
 
     if flag == 1:
-        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
+        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
         print("\nNo slots availabe!")
     else:
         print("\n Available slots:\n")
