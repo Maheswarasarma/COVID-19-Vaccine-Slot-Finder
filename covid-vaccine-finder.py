@@ -333,16 +333,6 @@ if __name__ == "__main__":
             flush=True)
         sys.exit(0)
 
-    # telegram settings
-    if 'telegram_token' in os.environ:
-        telegram_token = os.environ['telegram_token']
-    else:
-        telegram_token = ''
-    if 'telegram_chat_id' in os.environ:
-        telegram_chat_id = os.environ['telegram_chat_id']
-    else:
-        telegram_chat_id = ''
-
     warnings.filterwarnings("ignore")
     parser = argparse.ArgumentParser(
         add_help=False, description='Vaccine Finder')
@@ -382,6 +372,16 @@ if __name__ == "__main__":
         help='Enter no. of days to search',
         required=False)
     optionalArgs.add_argument(
+        '-t',
+        '--token',
+        help='Enter telegram token of length 46',
+        required=False)
+    optionalArgs.add_argument(
+        '-c',
+        '--chat',
+        help='Enter telegram chat ID prefixed with \'@\' eg: @TelegramChat',
+        required=False)
+    optionalArgs.add_argument(
         "-v",
         "--verbose",
         action='store_true',
@@ -414,6 +414,20 @@ if __name__ == "__main__":
     if not (args.pincode or args.district):
         print("Please provide either pincode or district name")
         sys.exit()
+
+    # telegram settings
+    if 'telegram_token' in os.environ:
+        telegram_token = os.environ['telegram_token']
+    elif args.token:
+        telegram_token = args.token
+    else:
+        telegram_token = ''
+    if 'telegram_chat_id' in os.environ:
+        telegram_chat_id = os.environ['telegram_chat_id']
+    elif args.chat:
+        telegram_chat_id = args.chat
+    else:
+        telegram_chat_id = ''
 
     default_return_codes = [200, 201, 204]
     base = datetime.datetime.today()
