@@ -6,6 +6,7 @@
 import os
 import sys
 import json
+import time
 import signal
 import smtplib
 import requests
@@ -162,6 +163,7 @@ class Operations:
                                 with Capturing() as output:
                                     self.telegram_dump(center, session)
                                 outputs.append(output)
+            time.sleep(2)
 
     # Method to send email
     def send_mail(self, body):
