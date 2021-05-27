@@ -38,21 +38,19 @@ set env variables `telegram_token and telegram_chat_id`
 
 Example:<br/>
 
-In Linux Bash-shell <br/>
-`export telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
-<br/>
- `export telegram_chat_id=@TelegramBot`
- 
-In Linux C-shell <br/>
-`setenv telegram_token 1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
-<br/>
-`setenv telegram_chat_id @TelegramBot`
-
 In Windows <br/>
 `set telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
 <br/>
 `set telegram_chat_id=@TelegramBot`
 
+(or) we can set tokens under global environment paths (as shown below) <br> 
+
+![image](https://user-images.githubusercontent.com/25954119/119774001-1ee15380-bedf-11eb-8308-f1c4f57c6900.png) <br>
+
+Refer link to set environment variables `https://www.architectryan.com/2018/08/31/how-to-change-environment-variables-on-windows-10/` <br>
+
+(or) we can pass telegram tokens as arguments
+-token <token> -chat <chat_id> <br>
 
 ## Telegram Token/ID generation <br/>
 Follow below link on how to generate telegram token/ID <br/>
