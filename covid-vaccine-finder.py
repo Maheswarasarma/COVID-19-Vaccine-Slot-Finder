@@ -54,6 +54,7 @@ class Operations:
             p_table.add_row([session["date"],
                              center["name"],
                              session["vaccine"],
+                             str(session["min_age_limit"])+"+",
                              session["available_capacity"],
                              session["available_capacity_dose1"],
                              session["available_capacity_dose2"],
@@ -68,15 +69,17 @@ class Operations:
         vac = " Vaccine Available on {0} ".format(session['date'])
         print(vac.center(45, '-'))
         print(''.center(64, '-'))
-        print("\nCenter   : ", center["name"])
-        print("Vaccine  : ", session["vaccine"])
-        print("Price    : ", center["fee_type"])
-        print("Capacity : ", session["available_capacity"])
-        print("Dose 1   : ", session["available_capacity_dose1"])
-        print("Dose 2   : ", session["available_capacity_dose2"])
-        print("Address  : ", center["address"])
-        print("District : ", center["district_name"])
-        print("Pincode  : ", center["pincode"])
+        print('\n')
+        print("Center    : ", center["name"])
+        print("Vaccine   : ", session["vaccine"])
+        print("Min Age   : ", session["min_age_limit"])
+        print("Price     : ", center["fee_type"])
+        print("Capacity  : ", session["available_capacity"])
+        print("Dose 1    : ", session["available_capacity_dose1"])
+        print("Dose 2    : ", session["available_capacity_dose2"])
+        print("Address   : ", center["address"])
+        print("District  : ", center["district_name"])
+        print("Pincode   : ", center["pincode"])
         if 'slots' in session:
             print("\nslots  :\n")
             for slot in session["slots"]:
@@ -450,6 +453,7 @@ if __name__ == "__main__":
         "Date",
         "Center",
         "Vaccine",
+        "Age",
         "Capacity",
         "Dose 1",
         "Dose 2",
@@ -462,7 +466,7 @@ if __name__ == "__main__":
     op.process_data(date_str)
 
     if flag == 1:
-        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
+        p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
         print("\nNo slots availabe!")
     else:
         print("\n Available slots:\n")
