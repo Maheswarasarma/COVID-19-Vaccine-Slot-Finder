@@ -43,9 +43,7 @@ In Windows <br/>
 <br/>
 `set telegram_chat_id=@TelegramBot`
 
-(or) we can set tokens under global environment paths (as shown below) <br> 
-
-![image](https://user-images.githubusercontent.com/25954119/119774001-1ee15380-bedf-11eb-8308-f1c4f57c6900.png) <br>
+(or) we can set tokens under global environment paths <br> 
 
 Refer link to set environment variables `https://www.architectryan.com/2018/08/31/how-to-change-environment-variables-on-windows-10/` <br>
 
