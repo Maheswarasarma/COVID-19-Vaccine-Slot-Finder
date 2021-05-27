@@ -32,20 +32,18 @@ Things to be done before running batch file: edit batch file to contain age/pinc
 2. `python covid-vaccine-finder.py --age <age> --pincode <pincode> --weeks <no.of.weeks> --dose <1|2> --email <email>` for pincode based search
 
 
-## Optional Feature - Telegram messaging
+## New Feature - Telegram messaging
 This feature will send sms to telegram chat when slots are available <br><br>
 set env variables `telegram_token and telegram_chat_id`
 
 Example:<br/>
 
-In Windows <br/>
+In Windows <br><br>
 `set telegram_token=1234567890:AABcDdEeFfgGhHhzHQRxYufubSdjfXO9Y678`
 <br/>
 `set telegram_chat_id=@TelegramBot`
 
-(or) we can set tokens under global environment paths <br> 
-
-Refer link to set environment variables `https://www.architectryan.com/2018/08/31/how-to-change-environment-variables-on-windows-10/` <br>
+(or) we can set these environment variables globally, refer https://www.architectryan.com/2018/08/31/how-to-change-environment-variables-on-windows-10/ <br>
 
 (or) we can pass telegram tokens as arguments
 -token <token> -chat <chat_id> <br>
