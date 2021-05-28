@@ -52,6 +52,10 @@ In Windows <br><br>
 Follow below link on how to generate telegram token/ID <br/>
 https://www.siteguarding.com/en/how-to-get-telegram-bot-api-token
 
+
+After above steps add your bot to Newly created group/channel as admin.
+Use that group/channel Id as telegram_chat_id <br>
+
 ## Usage
 Vaccine Slot Availability Finder
 
