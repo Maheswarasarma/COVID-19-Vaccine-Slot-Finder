@@ -85,6 +85,7 @@ class Operations:
             print("\nslots  :\n")
             for slot in session["slots"]:
                 print(slot)
+            print("\n Booking link: https://selfregistration.cowin.gov.in/\n")
             print(''.center(50, '-'))
             print('\n\n')
 
@@ -173,7 +174,7 @@ class Operations:
             recipients = [self.args.email]
             subject = 'Vaccine Availabilty as on %s' % str(
                 date.today()).replace('-', '/')
-            email_body = """<html>%s</html>""" % (
+            email_body = """<html>\n Booking link: https://selfregistration.cowin.gov.in/ <br><br>%s</html>""" % (
                 body.get_html_string(format=True, sortby="Date"))
             try:
                 try:
@@ -471,7 +472,8 @@ if __name__ == "__main__":
         p_table.add_row(['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
         print("\nNo slots availabe!")
     else:
-        print("\n Available slots:\n")
+        print("\n Booking link: https://selfregistration.cowin.gov.in/")
+        print("\n Available slots:\n"
 
     # print table to console
     print(p_table.get_string(sortby="Date"))
