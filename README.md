@@ -24,7 +24,6 @@ After above steps, execute `run.bat` for continuous monitoring of available slot
 Make sure to edit run.bat (add your age/pincode/district/dose/email/weeks) before running it <br>
 Keep only options as per your preference (please find list of optional arguments below)
 
-<br><br>
 
 ## Running the script
 1. `python covid-vaccine-finder.py --age <age> --district <district> --weeks <no.of.weeks> --dose <1|2> --email <email>` for district based search
