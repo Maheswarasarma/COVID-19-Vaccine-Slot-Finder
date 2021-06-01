@@ -16,16 +16,15 @@ We Highly Recommended to use `Anaconda`  https://www.anaconda.com/products/indiv
 2. change directory `cd COVID-19-Vaccine-Slot-Finder`
 3. Go to anaconda prompt and execute  `pip install -r requirements.txt`
 
-After above steps, execute `run.bat` for continuous monitoring of available slots <br><br>
-Make sure to edit run.bat (add your age/pincode/district/dose/email/weeks) before running it <br>
-Keep only options as per your preference (please find list of optional arguments below)
-
-
 ## Update
 
 Added `run.bat` to execute script every 10 min <br>
 
-Things to be done before running batch file: edit batch file to contain age/pincode/email properly<br><br>
+After above steps, execute `run.bat` for continuous monitoring of available slots <br><br>
+Make sure to edit run.bat (add your age/pincode/district/dose/email/weeks) before running it <br>
+Keep only options as per your preference (please find list of optional arguments below)
+
+<br><br>
 
 ## Running the script
 1. `python covid-vaccine-finder.py --age <age> --district <district> --weeks <no.of.weeks> --dose <1|2> --email <email>` for district based search
