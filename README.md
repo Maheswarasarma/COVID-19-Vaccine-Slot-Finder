@@ -7,7 +7,9 @@ however, script is working fine in Windows platform
 
 ## Pre-requisites
 
-We Highly Recommended to use `Anaconda`  https://www.anaconda.com/products/individual
+We Highly Recommended to use `Anaconda` <br>
+
+https://www.anaconda.com/products/individual
 
 
 ## Setting up Environment
