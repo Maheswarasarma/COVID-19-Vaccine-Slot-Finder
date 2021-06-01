@@ -85,9 +85,9 @@ class Operations:
             print("\nslots  :\n")
             for slot in session["slots"]:
                 print(slot)
-            print("\n Booking link: https://selfregistration.cowin.gov.in/\n")
-            print(''.center(50, '-'))
-            print('\n\n')
+        print("\nBooking link: https://selfregistration.cowin.gov.in/\n")
+        print(''.center(50, '-'))
+        print('\n\n')
 
     # Method to send telegram msg
     def do_telegram(self, t_data, token, t_id):
@@ -473,7 +473,7 @@ if __name__ == "__main__":
         print("\nNo slots availabe!")
     else:
         print("\n Booking link: https://selfregistration.cowin.gov.in/")
-        print("\n Available slots:\n"
+        print("\n Available slots:\n")
 
     # print table to console
     print(p_table.get_string(sortby="Date"))
