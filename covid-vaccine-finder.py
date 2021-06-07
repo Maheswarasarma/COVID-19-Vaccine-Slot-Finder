@@ -439,14 +439,15 @@ if __name__ == "__main__":
     base = datetime.datetime.today()
     current_week = base.isocalendar()[1]
     no_days = current_week + int(weekdays)
-    t_weeks =  [x for x in range(current_week, no_days+1, 1)]
+    t_weeks =  [x for x in range(current_week, no_days, 1)]
     date_list = [
         base +
         datetime.timedelta(
             days=x) for x in range(
             int(weekdays)*7)]
-    #index = [[x.isocalendar()[1] for x in date_list].index(y) for y in t_weeks]
-    date_str = [x.strftime("%d-%m-%Y") for x in date_list]
+    index = [[x.isocalendar()[1] for x in date_list].index(y) for y in t_weeks]
+    all_str = [x.strftime("%d-%m-%Y") for x in date_list]
+    date_str = [all_str[i] for i in index]
 
     flag = 1
     outputs = []
@@ -481,7 +482,7 @@ if __name__ == "__main__":
         data = ''
         # send a notification message in telegram
         if outputs:
-            for i in date_str:
+            for i in all_str:
                 date_data = [x for x in outputs if i in str(x)]
                 for data in date_data:
                     op.do_telegram('\n'.join(data), telegram_token, telegram_chat_id)
