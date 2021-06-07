@@ -445,9 +445,8 @@ if __name__ == "__main__":
         datetime.timedelta(
             days=x) for x in range(
             int(weekdays)*7)]
-    index = [[x.isocalendar()[1] for x in date_list].index(y) for y in t_weeks]
-    all_str = [x.strftime("%d-%m-%Y") for x in date_list]
-    date_str = [all_str[i] for i in index]
+    #index = [[x.isocalendar()[1] for x in date_list].index(y) for y in t_weeks]
+    date_str = [x.strftime("%d-%m-%Y") for x in date_list]
 
     flag = 1
     outputs = []
@@ -482,7 +481,7 @@ if __name__ == "__main__":
         data = ''
         # send a notification message in telegram
         if outputs:
-            for i in all_str:
+            for i in date_str:
                 date_data = [x for x in outputs if i in str(x)]
                 for data in date_data:
                     op.do_telegram('\n'.join(data), telegram_token, telegram_chat_id)
