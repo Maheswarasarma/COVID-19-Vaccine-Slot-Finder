@@ -69,6 +69,7 @@ optional arguments:
   -e     <EMAIL>,        --email        <EMAIL>      Enter email to receive alert
   -weeks <WEEKS>,        --weeks        <WEEKS>      Enter no. of weeks to search
   -dose  <DOSE>,         --dose         <DOSE>       Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
+  -s     SKIP_DAYS>      --skip_days    <SKIP_DAYS>  Enter no. of days to skip.. eg: -skip_days 4, this will not check for next 4 days..
   -v,                    --verbose                   Print out the progress
   -version               --version                   Print the version of the script
   -h,                    -help, --help               Show this help message and exit
