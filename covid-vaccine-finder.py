@@ -388,6 +388,12 @@ if __name__ == "__main__":
         help='Enter telegram chat ID prefixed with \'@\' eg: @TelegramChat',
         required=False)
     optionalArgs.add_argument(
+        '-s',
+        '-skip_days',
+        '--skip_days',
+        help='Enter no. of days to skip.. eg: -skip_days 4, this will not check for next 4 days..',
+        required=False)
+    optionalArgs.add_argument(
         "-v",
         "--verbose",
         action='store_true',
@@ -436,7 +442,10 @@ if __name__ == "__main__":
         telegram_chat_id = ''
 
     default_return_codes = [200, 201, 204]
-    base = datetime.datetime.today()
+    if args.skip_days:
+        base = datetime.datetime.today() + datetime.timedelta(days=int(args.skip_days))
+    else:
+        base = datetime.datetime.today()
     current_week = base.isocalendar()[1]
     no_days = current_week + int(weekdays)
     t_weeks =  [x for x in range(current_week, no_days, 1)]
