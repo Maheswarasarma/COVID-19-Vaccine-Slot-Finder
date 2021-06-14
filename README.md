@@ -44,8 +44,7 @@ In Windows <br><br>
 
 (or) we can set these environment variables globally, refer https://www.architectryan.com/2018/08/31/how-to-change-environment-variables-on-windows-10/ <br>
 
-(or) we can pass telegram tokens as arguments
--token <token> -chat <chat_id> <br>
+(or) we can pass telegram tokens as arguments `-token <token> -chat <chat_id> <br>`
 
 ## Telegram Token/ID generation <br/>
 Follow below link on how to generate telegram token/ID <br/>
