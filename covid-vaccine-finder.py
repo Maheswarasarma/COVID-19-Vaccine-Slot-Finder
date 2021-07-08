@@ -109,9 +109,53 @@ class Operations:
             if self.args.verbose:
                 print("No telegram tokens found!")
 
+    # Method to check slot availablity
+    def check_availability(self, session, center):
+        global outputs
+        if args.dose:
+            if int(args.dose) == 1:
+                if (session["available_capacity"] > 0 
+                    and session["available_capacity_dose1"] > 0):
+                    if 18 <= session["min_age_limit"] < 45 and int(self.args.age) < 45:
+                        self.table_dump(center, session, p_table)
+                        with Capturing() as output:
+                            self.telegram_dump(center, session)
+                        outputs.append(output)
+                    elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                        self.table_dump(center, session, p_table)
+                        with Capturing() as output:
+                            self.telegram_dump(center, session)
+                        outputs.append(output)
+            elif int(args.dose) == 2:
+                if (session["available_capacity"] > 0
+                    and session["available_capacity_dose2"] > 0):
+                    if 18 <= session["min_age_limit"] <= 44 and int(self.args.age) < 45:
+                        self.table_dump(center, session, p_table)
+                        with Capturing() as output:
+                            self.telegram_dump(center, session)
+                        outputs.append(output)
+                    elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                        self.table_dump(center, session, p_table)
+                        with Capturing() as output:
+                            self.telegram_dump(center, session)
+                        outputs.append(output)
+        else:
+            if (session["available_capacity"] > 0
+                or session["available_capacity_dose1"] > 0
+                or session["available_capacity_dose2"] > 0):
+                if 18 <= session["min_age_limit"] <= 44 and int(self.args.age) < 45:
+                    self.table_dump(center, session, p_table)
+                    with Capturing() as output:
+                        self.telegram_dump(center, session)
+                    outputs.append(output)
+                elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                    self.table_dump(center, session, p_table)
+                    with Capturing() as output:
+                        self.telegram_dump(center, session)
+                    outputs.append(output)
+                    
     # Method to get and process the data
     def process_data(self, p_date_str):
-        global outputs
         for inp_date in p_date_str:
             if self.args.pincode:
                 URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={0}&date={1}" \
@@ -135,37 +179,12 @@ class Operations:
             if response:
                 for center in response["centers"]:
                     for session in center["sessions"]:
-                        if args.dose:
-                            if int(args.dose) == 1:
-                                if (session["available_capacity"] > 0
-                                    and session["available_capacity_dose1"] > 0) \
-                                        and session["min_age_limit"] <= int(self.args.age):
-                                    self.table_dump(center, session, p_table)
-                                    with Capturing() as output:
-                                        self.telegram_dump(center, session)
-                                    outputs.append(output)
-                            elif int(args.dose) == 2:
-                                if (session["available_capacity"] > 0
-                                    and session["available_capacity_dose2"] > 0) \
-                                        and session["min_age_limit"] <= int(self.args.age):
-                                    self.table_dump(center, session, p_table)
-                                    with Capturing() as output:
-                                        self.telegram_dump(center, session)
-                                    outputs.append(output)
-                            else:
-                                print('please provide dose value either 1 or 2')
-                                sys.exit()
+                        if args.vaccine:
+                            if session["vaccine"] == str(self.args.vaccine).upper():
+                                  self.check_availability(session, center)
                         else:
-                            if (session["available_capacity"] > 0
-                                or session["available_capacity_dose1"] > 0
-                                or session["available_capacity_dose2"] > 0) \
-                                    and session["min_age_limit"] <= int(self.args.age):
-                                self.table_dump(center, session, p_table)
-                                with Capturing() as output:
-                                    self.telegram_dump(center, session)
-                                outputs.append(output)
-            time.sleep(2)
-
+                                self.check_availability(session, center)
+                            
     # Method to send email
     def send_mail(self, body):
         if self.args.email:
@@ -381,6 +400,11 @@ if __name__ == "__main__":
         '--token',
         help='Enter telegram token of length 46',
         required=False)
+    optionalArgs.add_argument(
+        "-vaccine",
+        "--vaccine",
+        required=False,
+        help="Enter type of vaccine eg: covishield/covaxin")
     optionalArgs.add_argument(
         '-c',
         '-chat',
