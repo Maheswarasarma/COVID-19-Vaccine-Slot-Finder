@@ -39,10 +39,6 @@ class Capturing(list):
 
 
 class Operations:
-    # base class class constructor
-    def __init__(self, o_args):
-        self.args = o_args
-
     # Method to generate table
     def table_dump(self, center, session, p_table):
         global flag
@@ -98,7 +94,7 @@ class Operations:
             print("sending telegram ..")
             URL = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}".format(
                 self._telegram_token, self._telegram_chat_id, alert_text)
-            ro = RestOperations(self.args)
+            ro = RestOperations()
             response = ro.post_operation(
                 URL,
                 headers={
@@ -106,7 +102,7 @@ class Operations:
                                            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
                 expected_return_code=200)
         else:
-            if self.args.verbose:
+            if args.verbose:
                 print("No telegram tokens found!")
 
     # Method to check slot availablity
@@ -116,12 +112,12 @@ class Operations:
             if int(args.dose) == 1:
                 if (session["available_capacity"] > 0 
                     and session["available_capacity_dose1"] > 0):
-                    if 18 <= session["min_age_limit"] < 45 and int(self.args.age) < 45:
+                    if 18 <= session["min_age_limit"] < 45 and int(args.age) < 45:
                         self.table_dump(center, session, p_table)
                         with Capturing() as output:
                             self.telegram_dump(center, session)
                         outputs.append(output)
-                    elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                    elif session["min_age_limit"] >= 45 and int(args.age) >= 45:
                         self.table_dump(center, session, p_table)
                         with Capturing() as output:
                             self.telegram_dump(center, session)
@@ -129,12 +125,12 @@ class Operations:
             elif int(args.dose) == 2:
                 if (session["available_capacity"] > 0
                     and session["available_capacity_dose2"] > 0):
-                    if 18 <= session["min_age_limit"] <= 44 and int(self.args.age) < 45:
+                    if 18 <= session["min_age_limit"] <= 44 and int(args.age) < 45:
                         self.table_dump(center, session, p_table)
                         with Capturing() as output:
                             self.telegram_dump(center, session)
                         outputs.append(output)
-                    elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                    elif session["min_age_limit"] >= 45 and int(args.age) >= 45:
                         self.table_dump(center, session, p_table)
                         with Capturing() as output:
                             self.telegram_dump(center, session)
@@ -143,12 +139,12 @@ class Operations:
             if (session["available_capacity"] > 0
                 or session["available_capacity_dose1"] > 0
                 or session["available_capacity_dose2"] > 0):
-                if 18 <= session["min_age_limit"] <= 44 and int(self.args.age) < 45:
+                if 18 <= session["min_age_limit"] <= 44 and int(args.age) < 45:
                     self.table_dump(center, session, p_table)
                     with Capturing() as output:
                         self.telegram_dump(center, session)
                     outputs.append(output)
-                elif session["min_age_limit"] >= 45 and int(self.args.age) >= 45:
+                elif session["min_age_limit"] >= 45 and int(args.age) >= 45:
                     self.table_dump(center, session, p_table)
                     with Capturing() as output:
                         self.telegram_dump(center, session)
@@ -157,19 +153,19 @@ class Operations:
     # Method to get and process the data
     def process_data(self, p_date_str):
         for inp_date in p_date_str:
-            if self.args.pincode:
+            if args.pincode:
                 URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode={0}&date={1}" \
-                    .format(self.args.pincode, inp_date)
-            if self.args.district:
+                    .format(args.pincode, inp_date)
+            if args.district:
                 df = pd.read_csv('district_mapping.csv')
-                if self.args.district.title() in df.values:
-                    district_id = df[df['district name'] == self.args.district.title()].values[0][1]
+                if args.district.title() in df.values:
+                    district_id = df[df['district name'] == args.district.title()].values[0][1]
                     URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={0}&date={1}" \
                         .format(district_id, inp_date)
                 else:
                     print("Invalid district name!")
                     sys.exit()
-            ro = RestOperations(self.args)
+            ro = RestOperations()
             response = ro.get_operation(
                 URL,
                 headers={
@@ -180,17 +176,25 @@ class Operations:
                 for center in response["centers"]:
                     for session in center["sessions"]:
                         if args.vaccine:
-                            if session["vaccine"] == str(self.args.vaccine).upper():
-                                  self.check_availability(session, center)
+                            if str(session["vaccine"]).upper() == str(args.vaccine).upper():
+                                if args.price:
+                                    if str(center["fee_type"].upper()) == str(args.price).upper():
+                                        self.check_availability(session, center)
+                                else:
+                                    self.check_availability(session, center)
                         else:
+                            if args.price:
+                                if str(center["fee_type"].upper()) == str(args.price).upper():
+                                    self.check_availability(session, center)
+                            else:
                                 self.check_availability(session, center)
                             
     # Method to send email
     def send_mail(self, body):
-        if self.args.email:
+        if args.email:
             print("sending email ..")
-            sender = self.args.email
-            recipients = [self.args.email]
+            sender = args.email
+            recipients = [args.email]
             subject = 'Vaccine Availabilty as on %s' % str(
                 date.today()).replace('-', '/')
             email_body = """<html>\n Booking link: https://selfregistration.cowin.gov.in/ <br><br>%s</html>""" % (
@@ -206,7 +210,7 @@ class Operations:
                     mail.Send()
                 except ModuleNotFoundError:
                     msg = email.message.Message()
-                    sender = self.args.email
+                    sender = args.email
                     msg['Subject'] = subject
                     msg['From'] = sender
                     msg['To'] = ", ".join(recipients)
@@ -406,6 +410,11 @@ if __name__ == "__main__":
         required=False,
         help="Enter type of vaccine eg: covishield/covaxin")
     optionalArgs.add_argument(
+        "-price",
+        "--price",
+        required=False,
+        help="Enter fee type of vaccine free/paid")
+    optionalArgs.add_argument(
         '-c',
         '-chat',
         '--chat',
@@ -498,7 +507,7 @@ if __name__ == "__main__":
         "Pincode",
         "Slots"]
 
-    op = Operations(args)
+    op = Operations()
     op.process_data(date_str)
 
     if flag == 1:

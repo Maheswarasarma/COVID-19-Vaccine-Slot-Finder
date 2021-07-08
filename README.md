@@ -77,6 +77,8 @@ optional arguments:
                         Enter telegram token of length 46
   -vaccine VACCINE, --vaccine VACCINE
                         Enter type of vaccine eg: covishield/covaxin
+  -price PRICE, --price PRICE
+                        Enter fee type of vaccine free/paid
   -c CHAT, -chat CHAT, --chat CHAT
                         Enter telegram chat ID prefixed with '@' eg: @TelegramChat
   -s SKIP_DAYS, -skip_days SKIP_DAYS, --skip_days SKIP_DAYS
