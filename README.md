@@ -60,18 +60,30 @@ Vaccine Slot Availability Finder
 `usage: covid-vaccine-finder.py -a AGE -p PINCODE [-e EMAIL] [-weeks WEEKS] [-v] [-version] [-h]`
 ```
 required arguments:
-  -a <AGE>,             --age          <AGE>        Enter required age to get vaccine availability
-  -p <PINCODE>,         --pincode      <PINCODE>    Enter area pincode
+  -a AGE, --age AGE     Enter required age to get vaccine availability
   
 optional arguments:
-  -e     <EMAIL>,        --email        <EMAIL>      Enter email to receive alert
-  -weeks <WEEKS>,        --weeks        <WEEKS>      Enter no. of weeks to search
-  -dose  <DOSE>,         --dose         <DOSE>       Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2 
-  -s     SKIP_DAYS>      --skip_days    <SKIP_DAYS>  Enter no. of days to skip.. eg: -skip_days 4, this will not check for next 4 days..
-  -v,                    --verbose                   Print out the progress
-  -version               --version                   Print the version of the script
-  -h,                    -help, --help               Show this help message and exit
-  -district <DISTRICT>,  --district     <DISTRICT>   Enter district name eg: Jagtial, Rangareddy
+  -p PINCODE, --pincode PINCODE
+                        Enter area pincode
+  -district DISTRICT, --district DISTRICT
+                        Enter district name eg: Jagtial, Rangareddy
+  -dose DOSE, --dose DOSE
+                        Enter dose1/dose2 preference: eg: -dose 1 (or) -dose 2
+  -e EMAIL, --email EMAIL
+                        Enter email to receive alert
+  -w WEEKS, -week WEEKS, -weeks WEEKS, --weeks WEEKS
+                        Enter no. of weeks to search
+  -t TOKEN, -token TOKEN, --token TOKEN
+                        Enter telegram token of length 46
+  -vaccine VACCINE, --vaccine VACCINE
+                        Enter type of vaccine eg: covishield/covaxin
+  -c CHAT, -chat CHAT, --chat CHAT
+                        Enter telegram chat ID prefixed with '@' eg: @TelegramChat
+  -s SKIP_DAYS, -skip_days SKIP_DAYS, --skip_days SKIP_DAYS
+                        Enter no. of days to skip.. eg: -skip_days 4, this will not check for next 4 days..
+  -v, --verbose         print out the progress
+  -version              print the version of the script
+  -h, --help            Show this help message and exit
 ```
 
 ## Sample output from terminal
