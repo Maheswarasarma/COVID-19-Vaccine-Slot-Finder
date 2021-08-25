@@ -1,4 +1,4 @@
 pandas
 requests==2.24.0
 prettytable==0.7.2
-pywin32==227
+pywin32>=331
